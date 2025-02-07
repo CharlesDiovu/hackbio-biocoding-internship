@@ -1,1 +1,81 @@
+# The structure is a nested dictionary, where each member's name serves as a key, and their details are stored as key-value pairs.
+    
+Isoleucine_group = {"Chikesurum": # Member 1: Chikesurum
+{"Full name": "Chikesurum Woha",
+"Slack username": "Chikesurum",
+ "Email address": "chikesurum@gmail.com",
+ "Hobby": "painting",
+  "Country": "United Kingdom",
+  "Discipline": "Biotechnology",
+  "Preferred Language": "Python"},
 
+"Charles":# Member 2: Charles
+{"Full name": "Charles Diovu", 
+"Slack username": "Charles Diovu",
+"Email address": "diovucharles@gmail.com",
+"Hobby": "Reading webnovels",
+"Country": "Nigeria",
+"Discipline": "Pharmacy",
+"Preferred Language": "Python"},
+
+"Madhurima AK":# Member 3: Madhurima
+{"Full name": "Madhurima AK",
+"Slack username": "Madhurima AK",
+"Email address": "madhurima.prakash@yahoo.com",
+"Hobby": "Music and art",
+"Country": "United Kingdom",
+"Discipline": "Molecular Medicine",
+"Preferred Language": "Python"},
+
+"Confidence": # Member 4: Charles
+{"Full name": "Orji Confidence Ogechi",
+"Slack username": "Confidence",
+"Email address": "confidenceogechukwuorji@gmail.com",
+"Hobby": "Hill climbing and traveling ",
+"Country": "Nigeria",
+"Discipline": "Applied Microbiology",
+"Preferred Language": "Python"} }
+
+
+print("RESULTS FOR ISOLEUCINE GROUP")
+print("\n")# Adds a blank line for readability
+
+print(1)
+print("Full Name:", Isoleucine_group["Chikesurum"]["Full name"])
+print("Slack Username:", Isoleucine_group["Chikesurum"]["Slack username"])
+print("Email:", Isoleucine_group["Chikesurum"]["Email address"])
+print("Hobby:", Isoleucine_group["Chikesurum"]["Hobby"])
+print("Country:", Isoleucine_group["Chikesurum"]["Country"])
+print("Discipline:", Isoleucine_group["Chikesurum"]["Discipline"])
+print("Preferred Language:", Isoleucine_group["Chikesurum"]["Preferred Language"])
+print("\n")  # Adds a blank line for readability
+
+print(2)
+print("Full Name:", Isoleucine_group["Charles"]["Full name"])
+print("Slack Username:", Isoleucine_group["Charles"]["Slack username"])
+print("Email:", Isoleucine_group["Charles"]["Email address"])
+print("Hobby:", Isoleucine_group["Charles"]["Hobby"])
+print("Country:", Isoleucine_group["Charles"]["Country"])
+print("Discipline:", Isoleucine_group["Charles"]["Discipline"])
+print("Preferred Language:", Isoleucine_group["Charles"]["Preferred Language"])
+print("\n")  # Adds a blank line for readability
+
+print(3)
+print("Full Name:", Isoleucine_group["Madhurima AK"]["Full name"])
+print("Slack Username:", Isoleucine_group["Madhurima AK"]["Slack username"])
+print("Email:", Isoleucine_group["Madhurima AK"]["Email address"])
+print("Hobby:", Isoleucine_group["Madhurima AK"]["Hobby"])
+print("Country:", Isoleucine_group["Madhurima AK"]["Country"])
+print("Discipline:", Isoleucine_group["Madhurima AK"]["Discipline"])
+print("Preferred Language:", Isoleucine_group["Madhurima AK"]["Preferred Language"])
+print("\n")  # Adds a blank line for readability
+
+print(4)
+print("Full Name:", Isoleucine_group["Confidence"]["Full name"])
+print("Slack Username:", Isoleucine_group["Confidence"]["Slack username"])
+print("Email:", Isoleucine_group["Confidence"]["Email address"])
+print("Hobby:", Isoleucine_group["Confidence"]["Hobby"])
+print("Country:", Isoleucine_group["Confidence"]["Country"])
+print("Discipline:", Isoleucine_group["Confidence"]["Discipline"])
+print("Preferred Language:", Isoleucine_group["Confidence"]["Preferred Language"])
+print("\n")  # Adds a blank line for readability
