@@ -1,0 +1,18 @@
+from Bio.Seq import Seq
+
+def translate_dna_to_protein(dna_sequence):
+    """
+    Translates a DNA sequence into a protein sequence.
+    :param dna_sequence: A string representing the DNA sequence
+    :return: A string representing the protein sequence
+    """
+    # Ensure the sequence length is divisible by 3
+    if len(dna_sequence) % 3 != 0:
+        raise ValueError("DNA sequence length must be divisible by 3.")
+    
+    # Convert DNA to mRNA by replacing T with U
+    mrna_sequence = dna_sequence.upper().replace("T", "U")
+    
+    # Translate mRNA to protein using Biopython's Seq
+    protein = str(Seq(mrna_sequence).translate())
+    return protein
