@@ -1,0 +1,37 @@
+import numpy as np
+import pandas as pd
+
+def logistic_growth_curve(t, K=1, r=0.1, lag_duration=10, exp_duration=20):
+    """
+    Simulates a logistic growth curve.
+    :param t: Time array
+    :param K: Carrying capacity
+    :param r: Growth rate
+    :param lag_duration: Length of lag phase (randomized within range)
+    :param exp_duration: Length of exponential phase (randomized within range)
+    :return: Array of population sizes
+    """
+    lag_duration = np.random.randint(1, lag_duration)  # Randomize lag phase
+    exp_duration = np.random.randint(1, exp_duration)  # Randomize exponential phase
+    
+    population = []
+    for time in t:
+        if time < lag_duration:
+            population.append(0)  # Lag phase
+        else:
+            logistic = K / (1 + (K - 1) * np.exp(-r * (time - lag_duration)))
+            population.append(logistic)
+    return np.array(population)
+
+def generate_growth_curves(num_curves=100, time_steps=100):
+    """
+    Generates multiple logistic growth curves.
+    :param num_curves: Number of curves to generate
+    :param time_steps: Number of time steps
+    :return: DataFrame with growth curves
+    """
+    time = np.linspace(0, 50, time_steps)
+    data = {}
+    for i in range(num_curves):
+        data[f"Curve_{i+1}"] = logistic_growth_curve(time)
+    return pd.DataFrame(data, index=time)
