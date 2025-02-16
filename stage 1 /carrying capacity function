@@ -1,0 +1,13 @@
+def time_to_reach_80_percent(t, population, K=1):
+    """
+    Determines the time to reach 80% of carrying capacity.
+    :param t: Time array
+    :param population: Population size array
+    :param K: Carrying capacity
+    :return: Time to reach 80% of K
+    """
+    threshold = 0.8 * K
+    for i, pop in enumerate(population):
+        if pop >= threshold:
+            return t[i]
+    return None
