@@ -72,7 +72,8 @@ print(f"T-test Results: t-statistic = {t_stat:.3f}, p-value = {p_value:.3f}")
 #Interpretation of p-value
 
 if p_value < 0.05: 
-print("There is a statistically significant difference between WT and MUT carrying times.") else: 
+print("There is a statistically significant difference between WT and MUT carrying times.") 
+else: 
 print("There is no statistically significant difference between WT and MUT carrying times.")
 
 #There is no statistically significant difference in the time it takes for the knock-out strains (-) and knock-in strains (+) to reach their maximum carrying capacity. The mutations do not appear to significantly alter the growth dynamics in this experiment.
