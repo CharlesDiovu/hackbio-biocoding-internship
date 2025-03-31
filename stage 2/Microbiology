@@ -1,10 +1,10 @@
 import pandas as pd import numpy as np import matplotlib.pyplot as plt import seaborn as sns from scipy.stats import ttest_ind
 
-Load the dataset
+#Load the dataset
 
 df = pd.read_csv('/mnt/data/2.1.tsv', sep='\t')
 
-Define function to determine time to reach 80% of carrying capacity
+#Define function to determine time to reach 80% of carrying capacity
 
 def time_to_carrying_capacity(time, od_values): max_od = max(od_values) threshold = 0.8 * max_od
 
@@ -13,17 +13,17 @@ for t, od in zip(time, od_values):
         return t
 return None  # If threshold is never reached
 
-Extract time column
+#Extract time column
 
 time_points = df.iloc[:, 0]
 
-Define strain groupings
+#Define strain groupings
 
 strain_labels = ["Strain1", "Strain2", "Strain3"] wt_cols = [["A1", "B1", "C1", "A3", "B3", "C3"],  # Strain1 WT ["A5", "B5", "C5", "A7", "B7", "C7"],  # Strain2 WT ["A9", "B9", "C9", "A11", "B11", "C11"]]  # Strain3 WT
 
 mut_cols = [["A2", "B2", "C2", "A4", "B4", "C4"],  # Strain1 MUT ["A6", "B6", "C6", "A8", "B8", "C8"],  # Strain2 MUT ["A10", "B10", "C10", "A12", "B12", "C12"]]  # Strain3 MUT
 
-Create plots for growth curves
+#Create plots for growth curves
 
 plt.figure(figsize=(12, 6)) for i, strain in enumerate(strain_labels): plt.subplot(1, 3, i+1)
 
@@ -42,7 +42,7 @@ plt.legend()
 
 plt.tight_layout() plt.show()
 
-Compute time to carrying capacity
+#Compute time to carrying capacity
 
 carrying_times = [] for i, strain in enumerate(strain_labels): wt_time = [time_to_carrying_capacity(time_points, df[col]) for col in wt_cols[i]] mut_time = [time_to_carrying_capacity(time_points, df[col]) for col in mut_cols[i]]
 
@@ -53,15 +53,15 @@ for t in mut_time:
 
 carrying_df = pd.DataFrame(carrying_times)
 
-Scatter plot of carrying capacity times
+#Scatter plot of carrying capacity times
 
 plt.figure(figsize=(6, 4)) sns.scatterplot(x=carrying_df[carrying_df["Type"] == "WT"]["Time"], y=carrying_df[carrying_df["Type"] == "MUT"]["Time"]) plt.xlabel("WT Carrying Time") plt.ylabel("MUT Carrying Time") plt.title("WT vs MUT Carrying Time") plt.show()
 
-Box plot comparison
+#Box plot comparison
 
 plt.figure(figsize=(6, 4)) sns.boxplot(x="Type", y="Time", data=carrying_df) plt.xlabel("Strain Type") plt.ylabel("Time to 80% Carrying Capacity") plt.title("Comparison of WT vs MUT Carrying Time") plt.show()
 
-Statistical test (t-test) to determine significance
+#Statistical test (t-test) to determine significance
 
 wt_times = carrying_df[carrying_df["Type"] == "WT"]["Time"].dropna() mut_times = carrying_df[carrying_df["Type"] == "MUT"]["Time"].dropna()
 
@@ -69,8 +69,10 @@ t_stat, p_value = ttest_ind(wt_times, mut_times, equal_var=False)
 
 print(f"T-test Results: t-statistic = {t_stat:.3f}, p-value = {p_value:.3f}")
 
-Interpretation of p-value
+#Interpretation of p-value
 
-if p_value < 0.05: print("There is a statistically significant difference between WT and MUT carrying times.") else: print("There is no statistically significant difference between WT and MUT carrying times.")
+if p_value < 0.05: 
+print("There is a statistically significant difference between WT and MUT carrying times.") else: 
+print("There is no statistically significant difference between WT and MUT carrying times.")
 
 #There is no statistically significant difference in the time it takes for the knock-out strains (-) and knock-in strains (+) to reach their maximum carrying capacity. The mutations do not appear to significantly alter the growth dynamics in this experiment.
