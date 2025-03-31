@@ -1,8 +1,13 @@
-import pandas as pd import numpy as np import matplotlib.pyplot as plt import seaborn as sns from scipy.stats import ttest_ind
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from scipy.stats import ttest_ind
 
 #Load the dataset
 
-file_path = "/mnt/data/2.7.csv" df = pd.read_csv(file_path)
+file_path = "/mnt/data/2.7.csv" 
+df = pd.read_csv(file_path)
 
 #Handle missing values by filling with 0 for numerical columns and 'Unknown' for categorical columns
 
@@ -14,7 +19,11 @@ df['Weight_pounds'] = df['Weight'] * 2.2
 
 #Histogram for BMI, Weight, Weight in pounds, and Age
 
-fig, axes = plt.subplots(2, 2, figsize=(12, 10)) sns.histplot(df['BMI'], bins=30, kde=True, ax=axes[0, 0]).set(title="BMI Distribution") sns.histplot(df['Weight'], bins=30, kde=True, ax=axes[0, 1]).set(title="Weight Distribution") sns.histplot(df['Weight_pounds'], bins=30, kde=True, ax=axes[1, 0]).set(title="Weight in Pounds Distribution") sns.histplot(df['Age'], bins=30, kde=True, ax=axes[1, 1]).set(title="Age Distribution") plt.tight_layout() plt.show()
+fig, axes = plt.subplots(2, 2, figsize=(12, 10)) 
+sns.histplot(df['BMI'], bins=30, kde=True, ax=axes[0, 0]).set(title="BMI Distribution") 
+sns.histplot(df['Weight'], bins=30, kde=True, ax=axes[0, 1]).set(title="Weight Distribution") sns.histplot(df['Weight_pounds'], bins=30, kde=True, ax=axes[1, 0]).set(title="Weight in Pounds Distribution") 
+sns.histplot(df['Age'], bins=30, kde=True, ax=axes[1, 1]).set(title="Age Distribution") 
+plt.tight_layout() plt.show()
 
 #Compute Mean Pulse Rate
 
@@ -22,15 +31,20 @@ mean_pulse = df['Pulse'].mean() print(f"Mean 60-second Pulse Rate: {mean_pulse}"
 
 #Compute Range of Diastolic Blood Pressure
 
-min_bp, max_bp = df['BPDia'].min(), df['BPDia'].max() print(f"Diastolic Blood Pressure Range: {min_bp} - {max_bp}")
+min_bp, max_bp = df['BPDia'].min(), df['BPDia'].max() 
+print(f"Diastolic Blood Pressure Range: {min_bp} - {max_bp}")
 
 #Compute Variance and Standard Deviation for Income
 
-income_variance = np.var(df['Income'], ddof=1) income_std_dev = np.std(df['Income'], ddof=1) print(f"Income Variance: {income_variance}") print(f"Income Standard Deviation: {income_std_dev}")
+income_variance = np.var(df['Income'], ddof=1) 
+income_std_dev = np.std(df['Income'], ddof=1) print(f"Income Variance: {income_variance}") 
+print(f"Income Standard Deviation: {income_std_dev}")
 
 #Scatter plot for Weight vs Height colored by Gender, Diabetes, and Smoking Status
 
-fig, axes = plt.subplots(1, 3, figsize=(18, 5)) sns.scatterplot(x=df['Height'], y=df['Weight'], hue=df['Gender'], ax=axes[0]).set(title="Weight vs Height (Gender)") sns.scatterplot(x=df['Height'], y=df['Weight'], hue=df['Diabetes'], ax=axes[1]).set(title="Weight vs Height (Diabetes)") sns.scatterplot(x=df['Height'], y=df['Weight'], hue=df['SmokingStatus'], ax=axes[2]).set(title="Weight vs Height (Smoking)") plt.tight_layout() plt.show()
+fig, axes = plt.subplots(1, 3, figsize=(18, 5)) sns.scatterplot(x=df['Height'], y=df['Weight'], hue=df['Gender'], ax=axes[0]).set(title="Weight vs Height (Gender)") sns.scatterplot(x=df['Height'], y=df['Weight'], hue=df['Diabetes'], ax=axes[1]).set(title="Weight vs Height (Diabetes)") sns.scatterplot(x=df['Height'], y=df['Weight'], hue=df['SmokingStatus'], ax=axes[2]).set(title="Weight vs Height (Smoking)") 
+plt.tight_layout() 
+plt.show()
 
 #T-tests
 
@@ -38,4 +52,5 @@ age_gender_ttest = ttest_ind(df[df['Gender'] == 'male']['Age'], df[df['Gender'] 
 
 #Print T-test results
 
-print(f"Age and Gender T-test P-value: {age_gender_ttest.pvalue}") print(f"BMI and Diabetes T-test P-value: {bmi_diabetes_ttest.pvalue}") print(f"Alcohol Consumption and Relationship Status T-test P-value: {alcohol_relationship_ttest.pvalue}")
+print(f"Age and Gender T-test P-value: {age_gender_ttest.pvalue}") 
+print(f"BMI and Diabetes T-test P-value: {bmi_diabetes_ttest.pvalue}") print(f"Alcohol Consumption and Relationship Status T-test P-value: {alcohol_relationship_ttest.pvalue}")
