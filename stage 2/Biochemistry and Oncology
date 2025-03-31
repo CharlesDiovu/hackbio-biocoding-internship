@@ -1,0 +1,53 @@
+import pandas as pd import matplotlib.pyplot as plt 
+import seaborn as sns
+
+#Load datasets
+
+foldx_df = pd.read_csv('/mnt/data/foldx.tsv', sep='\t') 
+mcgc_df = pd.read_csv('/mnt/data/mcgc.tsv', sep='\t')
+
+#Create specific_Protein_aa column
+
+foldx_df['specific_Protein_aa'] = foldx_df['Protein'] + '' + foldx_df['Amino_acid']
+
+mcgc_df['specific_Protein_aa'] = mcgc_df['Protein'] + '' + mcgc_df['Amino_acid']
+
+#Merge datasets on specific_Protein_aa
+
+merged_df = pd.merge(foldx_df, mcgc_df, on='specific_Protein_aa', how='inner')
+
+#Find mutations that affect both structure and function
+
+deleterious_mutations = merged_df[(merged_df['SIFT_Score'] < 0.05) & (merged_df['FoldX_Score'] > 2)]
+
+#Extract first amino acid from substitution nomenclature
+
+deleterious_mutations['First_AA'] = deleterious_mutations['Amino_acid'].str[0]
+
+#Frequency table of amino acids
+
+amino_acid_counts = deleterious_mutations['First_AA'].value_counts()
+
+#Bar plot
+
+plt.figure(figsize=(10, 5)) sns.barplot(x=amino_acid_counts.index, y=amino_acid_counts.values) plt.xlabel("Amino Acid") plt.ylabel("Frequency") plt.title("Frequency of Amino Acids with Structural and Functional Impact") plt.xticks(rotation=45) 
+plt.show()
+
+#Pie chart
+
+plt.figure(figsize=(8, 8)) plt.pie(amino_acid_counts.values, labels=amino_acid_counts.index, autopct='%1.1f%%', startangle=140) plt.title("Distribution of Amino Acids with High Impact") 
+plt.show()
+
+#Find amino acids with more than 100 occurrences
+
+high_impact_aas = amino_acid_counts[amino_acid_counts > 100]
+
+#Interpretation
+
+print("Amino acids with the highest impact on protein structure and function:") 
+print(high_impact_aas)
+
+#Brief description
+
+#Amino acids with high impact tend to have unique biochemical properties such as charge, polarity, and steric hindrance,which may lead to significant structural destabilization and functional disruption when mutated.
+
