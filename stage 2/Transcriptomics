@@ -1,0 +1,53 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import requests
+from bs4 import BeautifulSoup
+
+# Load dataset
+file_path = "/mnt/data/2.6.txt"  
+# Adjust path if needed
+df = pd.read_csv(file_path,delim_whitespace=True)
+
+# Convert log2FoldChange and pvalue to numeric
+df["log2FoldChange"] = pd.to_numeric(df["log2FoldChange"], errors='coerce')
+df["pvalue"] = pd.to_numeric(df["pvalue"], errors='coerce')
+
+# Create Volcano Plot
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x=df["log2FoldChange"], y=-df["pvalue"].apply(lambda x: np.log10(x) if x > 0 else 0),
+                hue=(df["log2FoldChange"] > 1) & (df["pvalue"] < 0.01) | (df["log2FoldChange"] < -1) & (df["pvalue"] < 0.01),
+                palette={True: "red", False: "gray"}, alpha=0.7)
+plt.axhline(-np.log10(0.01), linestyle='dashed', color='blue')
+plt.axvline(1, linestyle='dashed', color='blue')
+plt.axvline(-1, linestyle='dashed', color='blue')
+plt.xlabel("Log2 Fold Change")
+plt.ylabel("-log10(p-value)")
+plt.title("Volcano Plot")
+plt.show()
+
+# Identify upregulated and downregulated genes
+upregulated = df[(df["log2FoldChange"] > 1) & (df["pvalue"] < 0.01)]
+
+downregulated = df[(df["log2FoldChange"] < -1) & (df["pvalue"] < 0.01)]
+
+print("Upregulated Genes:\n", upregulated[["Gene", "log2FoldChange", "pvalue"]])
+
+print("\nDownregulated Genes:\n", downregulated[["Gene", "log2FoldChange", "pvalue"]])
+
+# Function to get gene function from GeneCards
+def get_gene_function(gene):
+    url = f"https://www.genecards.org/cgi-bin/carddisp.pl?gene={gene}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        summary = soup.find("div", {"id": "summaries"})
+        return summary.text.strip() if summary else "Function not found"
+    return "Failed to fetch data"
+
+# Get functions for top 5 upregulated and downregulated genes
+top_upregulated = upregulated.sort_values("log2FoldChange", ascending=False).head(5)
+top_downregulated = downregulated.sort_values("log2FoldChange", ascending=True).head(5)
+
+for gene in top_upregulated["Gene"].tolist() + top_downregulated["Gene"].tolist():
+    print(f"Gene: {gene}, Function: {get_gene_function(gene)}")
